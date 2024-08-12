@@ -1,5 +1,6 @@
 import express from 'express';
-import {v4} from 'uuid';
+import mongoose from 'mongoose';
+import { v4 } from 'uuid';
 
 const app = express();
 /* 
@@ -7,10 +8,30 @@ app.get('/', async (req, res) => {
   res.send('Hello World');
 });
  */
-app.get('/', (req, res) => {
+const mongoConnection = await mongoose.connect('mongodb://c-mongo/test');
+
+const productSchema = new mongoose.Schema({
+  name: String
+})
+
+const ProductModel = mongoose.model('Product', productSchema);
+
+app.get('/', async (req, res) => {
+
+  const newProduct = await ProductModel.create({
+    name: 'laptop'
+  });
+
   res.json({
-    id: v4()
+    id: v4(),
+    newproduct: newProduct
   })
+});
+
+app.get('/mongo', async (req, res) => {
+  const response = await mongoConnection.connection.db.databaseName;
+  // res.send('Hello World');
+  res.send(JSON.stringify(response));
 });
 
 const port = 3000;

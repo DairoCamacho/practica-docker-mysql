@@ -1,0 +1,13 @@
+services:
+  app:
+    image: node
+    container_name: c-nodetwitch
+    ports:
+      - "3000:3000"
+    build: .
+    command: node server.js
+  db:
+    image: mongo
+    container_name: c-mongo
+    ports:
+      - "27017:27017"

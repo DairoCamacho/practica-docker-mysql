@@ -1,0 +1,16 @@
+services:
+  app:
+    image: node
+    container_name: server
+    ports:
+      - "3000:3000"
+    build: .
+    command: node server.js
+  db:
+    image: mongo
+    container_name: prodmongodb
+    ports:
+      - "27017:27017"
+# para ejecutar un perfil específico de producción:
+# docker compose -f docker-compose.prod.yml up
+# docker compose -f docker-compose.prod.yml up --build
